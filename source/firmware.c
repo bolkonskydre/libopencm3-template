@@ -1,9 +1,9 @@
-#include "api.h"
-#include "api-asm.h"
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/gpio.h>
 
 int main(void) {
-	/* add your own code */
-	uint32_t rev = 0xaabbccdd;
-	rev = rev_bytes(rev);
-	return my_func(rev);
+	while (1) {
+		
+	}
+	return 0;
 }
