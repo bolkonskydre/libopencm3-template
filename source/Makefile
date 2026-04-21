@@ -7,8 +7,8 @@ CFILES += api.c
 AFILES += api-asm.S
 
 # TODO - you will need to edit these two lines!
-DEVICE=stm32f411ceu6
-OOCD_FILE = board/stm32f411ceu6.cfg
+DEVICE=stm32h743vit6
+OOCD_FILE = board/stm32h743vit6.cfg
 
 # You shouldn't have to edit anything below here.
 VPATH += $(SHARED_DIR)
