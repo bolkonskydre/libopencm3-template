@@ -13,7 +13,7 @@ uint64_t ticks = 0;
 
 void rcc_setup(void){
   const struct rcc_pll_config pll_config = {
-	.sysclock_source = RCC_PLL,
+	.sysclock_source = RCC_CFGR_SW_PLL1,
 	.pll_source = RCC_PLLCKSELR_PLLSRC_HSE,
 	.hse_frequency = 8000000,
 	.pll1 = {
@@ -24,16 +24,17 @@ void rcc_setup(void){
 		.divr = 0,
 	},
 	.power_mode = PWR_SYS_LDO,
-	.voltage_scale = PWR_VOS_SCALE_3,
+	.voltage_scale = PWR_VOS_SCALE_0,
 	.pll2 = {.divm = 0},
 	.pll3 = {.divm = 0},
-	.core_pre = 1,
-	.hpre = 1,
-	.ppre1 = 2,
-	.ppre2 = 2,
-	.ppre3 = 2,
-	.ppre4 = 4
+	.core_pre = RCC_D1CFGR_D1CPRE_BYP,
+	.hpre = RCC_D1CFGR_D1HPRE_DIV4,
+	.ppre1 = RCC_D2CFGR_D2PPRE_BYP,
+	.ppre2 = RCC_D2CFGR_D2PPRE_BYP,
+	.ppre3 = RCC_D1CFGR_D1PPRE_BYP,
+	.ppre4 = RCC_D3CFGR_D3PPRE_BYP,
   };
+  
   rcc_clock_setup_pll(&pll_config);
 }
 
