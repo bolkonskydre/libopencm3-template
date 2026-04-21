@@ -9,7 +9,10 @@
 int SYSTICK_FREQ = 1000;
 int SYS_CLK = 84000000;
 
-uint64_t ticks = 0;
+volatile uint64_t ticks = 0;
+void sys_tick_handler(void) {
+	ticks++;
+}
 
 void rcc_setup(void){
   const struct rcc_pll_config pll_config = {
@@ -17,7 +20,7 @@ void rcc_setup(void){
 	.pll_source = RCC_PLLCKSELR_PLLSRC_HSE,
 	.hse_frequency = 8000000,
 	.pll1 = {
-		.divm = 1,
+		.divm = RCC_PLLCKSELR_DIVM_BYP,
 		.divn = 60,
 		.divp = 1,
 		.divq = 0,
@@ -25,6 +28,7 @@ void rcc_setup(void){
 	},
 	.power_mode = PWR_SYS_LDO,
 	.voltage_scale = PWR_VOS_SCALE_0,
+	.smps_level = 0,
 	.pll2 = {.divm = 0},
 	.pll3 = {.divm = 0},
 	.core_pre = RCC_D1CFGR_D1CPRE_BYP,
@@ -34,7 +38,7 @@ void rcc_setup(void){
 	.ppre3 = RCC_D1CFGR_D1PPRE_BYP,
 	.ppre4 = RCC_D3CFGR_D3PPRE_BYP,
   };
-  
+
   rcc_clock_setup_pll(&pll_config);
 }
 
