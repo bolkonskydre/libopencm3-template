@@ -4,6 +4,7 @@
 #include <libopencm3/cm3/vector.h>
 #include <libopencm3/stm32/pwr.h>
 #include <libopencm3/stm32/flash.h>
+#include <libopencm3/stm32/i2c.h>
 #define STM32H7
 
 int SYSTICK_FREQ = 1000;
@@ -21,22 +22,34 @@ void rcc_setup(void){
 	.hse_frequency = 8000000,
 	.pll1 = {
 		.divm = RCC_PLLCKSELR_DIVM_BYP,
-		.divn = 60,
-		.divp = 1,
-		.divq = 0,
-		.divr = 0,
+		.divn = 120,
+		.divp = 2,
+		.divq = 8,
+		.divr = 2,
+	},
+	.pll2 = {
+		.divm =RCC_PLLCKSELR_DIVM_BYP,
+		.divn =32,
+		.divp =2,
+		.divq =2,
+		.divr =2,
+	},
+	.pll3 = {
+		.divm =2,
+		.divn =128,
+		.divp =2,
+		.divq =2,
+		.divr =16,
 	},
 	.power_mode = PWR_SYS_LDO,
 	.voltage_scale = PWR_VOS_SCALE_0,
 	.smps_level = 0,
-	.pll2 = {.divm = 0},
-	.pll3 = {.divm = 0},
 	.core_pre = RCC_D1CFGR_D1CPRE_BYP,
-	.hpre = RCC_D1CFGR_D1HPRE_DIV4,
-	.ppre1 = RCC_D2CFGR_D2PPRE_BYP,
-	.ppre2 = RCC_D2CFGR_D2PPRE_BYP,
-	.ppre3 = RCC_D1CFGR_D1PPRE_BYP,
-	.ppre4 = RCC_D3CFGR_D3PPRE_BYP,
+	.hpre = RCC_D1CFGR_D1HPRE_DIV2,
+	.ppre1 = RCC_D1CFGR_D1PPRE_DIV2,
+	.ppre2 = RCC_D2CFGR_D2PPRE_DIV2,
+	.ppre3 = RCC_D2CFGR_D2PPRE_DIV2,
+	.ppre4 = RCC_D3CFGR_D3PPRE_DIV2,
   };
 
   rcc_clock_setup_pll(&pll_config);
