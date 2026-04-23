@@ -4,7 +4,6 @@
 #include <libopencm3/cm3/vector.h>
 #include <libopencm3/stm32/pwr.h>
 #include <libopencm3/stm32/flash.h>
-#include <libopencm3/stm32/i2c.h>
 #define STM32H7
 
 int SYSTICK_FREQ = 1000;
@@ -13,6 +12,10 @@ int SYS_CLK = 84000000;
 volatile uint64_t ticks = 0;
 void sys_tick_handler(void) {
 	ticks++;
+}
+
+static uint64_t get_ticks(void) {
+	return ticks;
 }
 
 void rcc_setup(void){
@@ -76,8 +79,15 @@ int main(void) {
 	rcc_setup();
 	gpio_setup();
 	systick_setup();
+
+
+	uint64_t start_time = get_ticks();
+
 	while (1) {
-	
+		if (get_ticks() - start_time >= 1000) {
+			gpio_toggle(GPIOC, GPIO13);
+			start_time = get_ticks();
+		}
 	return 0;
 	}
 }
