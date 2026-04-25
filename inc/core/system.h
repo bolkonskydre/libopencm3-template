@@ -1,0 +1,2 @@
+int SYSTICK_FREQ = 1000;
+int SYS_CLK = 84000000;

@@ -1,7 +1,7 @@
 PROJECT = stm32-firmware
 BUILD_DIR = bin
 
-SHARED_DIR = ../my-common-code
+SHARED_DIR = ../inc
 CFILES = firmware.c
 CFILES += api.c
 AFILES += api-asm.S
