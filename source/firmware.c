@@ -4,8 +4,6 @@
 #include <libopencm3/stm32/flash.h>
 #include "core/system.h"
 
-#define STM32H7
-
 #define LEDPORT  (GPIOC)
 #define LEDPIN   (GPIO13)
 

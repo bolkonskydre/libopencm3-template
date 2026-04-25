@@ -1,0 +1,1 @@
+#define STM32H7
