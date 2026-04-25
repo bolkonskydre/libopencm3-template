@@ -3,12 +3,11 @@ BUILD_DIR = bin
 
 SHARED_DIR = ../inc
 CFILES = firmware.c
-CFILES += api.c
-AFILES += api-asm.S
+CFILES += core/system.c
 
 # TODO - you will need to edit these two lines!
-DEVICE=stm32h743vit6
-OOCD_FILE = board/stm32h743vit6.cfg
+DEVICE=stm32h743zit6
+OOCD_FILE = board/stm32h743zit6.cfg
 
 # You shouldn't have to edit anything below here.
 VPATH += $(SHARED_DIR)

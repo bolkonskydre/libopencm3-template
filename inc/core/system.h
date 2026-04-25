@@ -1,2 +1,2 @@
-int SYSTICK_FREQ = 1000;
-int SYS_CLK = 84000000;
+#define SYSTICK_FREQ        1000
+#define SYS_CLK             84000000
