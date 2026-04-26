@@ -7,7 +7,7 @@ CFILES += core/system.c
 
 # TODO - you will need to edit these two lines!
 DEVICE=stm32h743zit6
-OOCD_FILE = board/stm32h743zit6.cfg
+OOCD_FILE = board/st_nucleo_h743zi.cfg
 
 # You shouldn't have to edit anything below here.
 VPATH += $(SHARED_DIR)

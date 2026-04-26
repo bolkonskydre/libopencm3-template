@@ -6,13 +6,27 @@
     "configurations": [
         {
             "cwd": "${workspaceFolder}",
-            "executable": "${workspaceFolder}/source/stm32-firmware.elf",
+            "executable": "source/stm32-firmware.elf",
             "name": "Debug with ST-Link",
             "request": "launch",
             "type": "cortex-debug",
             "runToEntryPoint": "main",
             "showDevDebugOutput": "none",
             "servertype": "stlink",
+            "armToolchainPath": "C:/Program Files/Arm/GNU Toolchain mingw-w64-x86_64-arm-none-eabi/bin",
+            "gdbPath": "C:/Program Files/Arm/GNU Toolchain mingw-w64-x86_64-arm-none-eabi/bin/arm-none-eabi-gdb.exe",
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "./source/stm32-firmware.elf",
+            "name": "Debug with OpenOCD",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": ["tcl/interface/stlink.cfg", "tcl/target/stm32h7x_dual_bank.cfg"],
+            "searchDir": ["${workspaceFolder}/tcl"],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none",
             "armToolchainPath": "C:/Program Files/Arm/GNU Toolchain mingw-w64-x86_64-arm-none-eabi/bin",
             "gdbPath": "C:/Program Files/Arm/GNU Toolchain mingw-w64-x86_64-arm-none-eabi/bin/arm-none-eabi-gdb.exe"
         },
