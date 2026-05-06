@@ -7,7 +7,7 @@
 #define LEDPORT  (GPIOB)
 #define LEDPIN   (GPIO14)
 
-
+//testing
 static void gpio_setup(void) { //config for the GPIO Port C pin 13
 	rcc_periph_clock_enable(LEDPORT);
 	gpio_mode_setup(LEDPORT, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, LEDPIN);
