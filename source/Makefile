@@ -5,6 +5,7 @@ SHARED_DIR = ../inc
 CFILES = firmware.c
 CFILES += core/system.c
 CFILES += core/timer.c
+CFILES += core/gpio.c
 
 # TODO - you will need to edit these two lines!
 DEVICE=stm32h743zit6
