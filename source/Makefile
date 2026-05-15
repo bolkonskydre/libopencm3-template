@@ -6,6 +6,7 @@ CFILES = firmware.c
 CFILES += core/system.c
 CFILES += core/timer.c
 CFILES += core/gpio.c
+CFILES += core/comms.c
 
 # TODO - you will need to edit these two lines!
 DEVICE=stm32h743zit6

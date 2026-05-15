@@ -1,6 +1,8 @@
 #include "core/system.h"
+#include "core/comms.h"
 #include <libopencm3/cm3/systick.h>
 #include <libopencm3/stm32/rcc.h>
+
 
 static volatile uint64_t ticks = 0;
 
@@ -61,10 +63,12 @@ void rcc_setup(void){
   };
 
   rcc_clock_setup_pll(&pll_config);
+  
 }
 
 
 void system_setup(void) {
     rcc_setup();
     systick_setup();
+	i2c_setup();
 }
