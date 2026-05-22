@@ -1,7 +1,7 @@
 #include "core/comms.h"
 #include "common_defines.h"
 
-
+/*i2c helper functions*/
 void i2c_tcie_en(i2c) {
     I2C_CR1(i2c) |= I2C_CR1_TCIE;
 }
@@ -83,4 +83,41 @@ void i2c_write(uint8_t device_addr, uint8_t reg_addr,  uint8_t* data, size_t len
     }
     while (!i2c_transfer_complete(I2C1));
     i2c_send_stop(I2C1);
+}
+
+void spi_setup(uint32_t spi, uint32_t gpioport, uint16_t gpios[3]) {
+    uint32_t spi_rcc_base;
+    switch (spi) {
+        case SPI1:
+            spi_rcc_base = RCC_SPI1;
+            break;
+        case SPI2:
+            spi_rcc_base = RCC_SPI2;
+            break;
+        case SPI3:
+            spi_rcc_base = RCC_SPI3;
+            break;
+        case SPI4:
+            spi_rcc_base = RCC_SPI4;
+            break;
+        case SPI5:
+            spi_rcc_base = RCC_SPI5;
+            break;
+        case SPI6:
+            spi_rcc_base = RCC_SPI6;
+            break;
+    }
+
+    switch (spi) {
+        case SPI2:
+            GPIO_AFRH(gpioport) |= 0x76600000;
+            break;
+        case SPI3:
+            GPIO_AFRL(gpioport) |= 0x00555000;
+            break;
+    }   
+
+    rcc_periph_clock_enable(gpioport);
+    rcc_periph_clock_enable(spi_rcc_base);
+
 }
