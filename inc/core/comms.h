@@ -16,7 +16,6 @@ void i2c_read(uint8_t device_addr, uint8_t reg_addr, uint8_t *buffer, size_t len
 
 void i2c_write(uint8_t device_addr, uint8_t reg_addr, uint8_t *data, size_t len);//this function will write data to a specified register of an I2C device. You will need to send the device address, followed by the register address, and then write the data from the provided buffer. The length parameter specifies how many bytes to write.
 
-//SPI Commands
-void spi_setup(uint32_t spi, uint16_t gpios);
-
 void spi_write(uint8_t reg_addr, uint8_t *data);
+
+

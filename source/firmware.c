@@ -20,21 +20,26 @@ volatile uint8_t buffer[2];
 uint8_t jooj = 0x08; // Set the measure bit in the power control register to start measurements
 uint8_t xdata_ptr = 0x32; // Pointer to the start of X data registers on the ADXL345
 
-int main(void) {
-	struct gpio_config config = {
-		.gpio_port = GPIOA,
-		.gpio_pin = GPIO3,
-		.gpio_af = GPIO_AF1,
-		.peripheral = TIM2,
-		.tim_channel = TIM_OC4,
+struct gpio_config config = {
+		.gpio_port = GPIOC,
+		.gpio_pin = GPIO6,
+		.gpio_af = GPIO_AF2,
+		.peripheral = TIM3,
+		.tim_channel = TIM_OC1,
 		.duty_cycle = 0.0f, // Initial duty cycle of 10%
 		.prescaler = 240, // Prescaler value for 1 MHz timer clock (assuming 240 MHz system clock)
 		.arr_value = 1000   // Auto-reload value for 1 kHz PWM frequency
 	};
 
+struct spi_setup_config spi_config = {
+	.spi = SPI3,
+};
+
+int main(void) {
+	
 	system_setup();
 
-	i2c_write(ADXL345_ADDR, PWR_CTL, &jooj, 1); // Set data rate to 25Hz	
+//	i2c_write(ADXL345_ADDR, PWR_CTL, &jooj, 1); // Set data rate to 25Hz	
 	volatile uint32_t apb1_clk_freq = rcc_get_bus_clk_freq(RCC_APB1CLK);
 	volatile uint32_t start_time = system_get_ticks();
 
@@ -44,7 +49,7 @@ int main(void) {
 //freq = APB1_CLK / ((PRESCALER - 1) * (ARR_VALUE - 1))
 
 	while (1) {
-		volatile uint16_t tim2_cntr = timer_get_counter(TIM2);
+	volatile uint16_t tim2_cntr = timer_get_counter(TIM3);
 		volatile uint32_t *tim2_ccr_ptr = (volatile uint32_t *)tim2_ccr;
 		volatile uint32_t *tim2_arr_ptr = (volatile uint32_t *)tim2_arr;
 		volatile uint32_t tick_diff = system_get_ticks() - start_time;

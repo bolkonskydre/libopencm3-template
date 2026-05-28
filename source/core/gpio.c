@@ -11,8 +11,8 @@ void timer_pwm_set_duty_cycle(const struct gpio_config *config)
 
 void pwm_setup(const struct gpio_config *config) {
     /* 1. Enable clocks */
-    rcc_periph_clock_enable(RCC_GPIOA);
-    rcc_periph_clock_enable(RCC_TIM2);
+    rcc_periph_clock_enable(RCC_GPIOC);
+    rcc_periph_clock_enable(RCC_TIM3);
 
     /* 2. Configure the specified GPIO pin as TIM2_CH4 (AF1) */
     gpio_mode_setup(config->gpio_port, GPIO_MODE_AF, GPIO_PUPD_NONE, config->gpio_pin);
