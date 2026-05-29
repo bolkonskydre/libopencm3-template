@@ -31,9 +31,6 @@ struct gpio_config config = {
 		.arr_value = 1000   // Auto-reload value for 1 kHz PWM frequency
 	};
 
-struct spi_setup_config spi_config = {
-	.spi = SPI3,
-};
 
 int main(void) {
 	
@@ -53,7 +50,6 @@ int main(void) {
 		volatile uint32_t *tim2_ccr_ptr = (volatile uint32_t *)tim2_ccr;
 		volatile uint32_t *tim2_arr_ptr = (volatile uint32_t *)tim2_arr;
 		volatile uint32_t tick_diff = system_get_ticks() - start_time;
-
 		if (tick_diff >= 10) { // Update duty cycle every 1 second
 			config.duty_cycle += 1.0f; // Increase duty cycle by 10%
 			if (config.duty_cycle > 100.0f) {

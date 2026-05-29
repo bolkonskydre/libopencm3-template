@@ -71,4 +71,5 @@ void system_setup(void) {
     rcc_setup();
     systick_setup();
 	i2c_setup();
+	ext_flash_setup();
 }

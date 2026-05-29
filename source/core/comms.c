@@ -1,5 +1,6 @@
 #include "core/comms.h"
 #include "common_defines.h"
+#include <libopencm3/stm32/spi.h>
 
 /*i2c helper functions*/
 void i2c_tcie_en(i2c) {
@@ -37,6 +38,31 @@ void nack_en(uint32_t i2c) {
 void set_i2c_fastmode_timing(uint32_t i2c) {  // This function will set the timing for I2C fast mode (400 kHz). You will need to calculate the appropriate timing values based on the clock frequency of your microcontroller and the desired I2C speed. The specific calculations can be found in the STM32 reference manual.
     I2C_TIMINGR(i2c) = 0xB03FDB;
 }
+
+
+void ext_flash_setup(void) {
+    rcc_periph_clock_enable(RCC_SPI2);
+    rcc_periph_clock_enable(RCC_GPIOB);
+    rcc_periph_clock_enable(RCC_GPIOD);
+    gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_PULLUP, GPIO11);
+    gpio_set_af(GPIOB, GPIO_AF5, GPIO13 | GPIO14 | GPIO15);
+    rcc_set_peripheral_clk_sel(SPI2_BASE, RCC_PERCLK);
+    
+    const struct spi_setup_config w25q128_spi_setup = {
+        .spi = SPI2,
+        .comm = SPI_COMM_FULLDUPLEX,
+        .cpha = SPI_CPHA_FRST,
+        .cpol = SPI_CPOL_HIGH,
+        .lsbfrst = SPI_MSBSET,
+        .mode = SPI_MASTER_SEL,
+        .mbrdiv = SPI_CFG1_MBR_DIV4, //going to use PER_CK/2 to get a BR of 32Mbit, going slow first to avoid udr/ovr conditions
+        .prot = SPI_PROT_MOTOROLA,
+        .ss_mgt = SPI_SSM_HW,
+        .ssoe = SPI_SSOE_EN,
+    };
+    spi_setup(&w25q128_spi_setup);
+}
+
 
 void i2c_setup() { // This function will set up the I2C peripheral. You will need to configure the GPIO pins for I2C, set the clock frequency, and enable the I2C peripheral. The specific configuration will depend on your hardware and requirements.
     rcc_periph_clock_enable(RCC_I2C1);
@@ -85,39 +111,3 @@ void i2c_write(uint8_t device_addr, uint8_t reg_addr,  uint8_t* data, size_t len
     i2c_send_stop(I2C1);
 }
 
-void spi_setup(uint32_t spi, uint32_t gpioport, uint16_t gpios[3]) {
-    uint32_t spi_rcc_base;
-    switch (spi) {
-        case SPI1:
-            spi_rcc_base = RCC_SPI1;
-            break;
-        case SPI2:
-            spi_rcc_base = RCC_SPI2;
-            break;
-        case SPI3:
-            spi_rcc_base = RCC_SPI3;
-            break;
-        case SPI4:
-            spi_rcc_base = RCC_SPI4;
-            break;
-        case SPI5:
-            spi_rcc_base = RCC_SPI5;
-            break;
-        case SPI6:
-            spi_rcc_base = RCC_SPI6;
-            break;
-    }
-
-    switch (spi) {
-        case SPI2:
-            GPIO_AFRH(gpioport) |= 0x76600000;
-            break;
-        case SPI3:
-            GPIO_AFRL(gpioport) |= 0x00555000;
-            break;
-    }   
-
-    rcc_periph_clock_enable(gpioport);
-    rcc_periph_clock_enable(spi_rcc_base);
-
-}
